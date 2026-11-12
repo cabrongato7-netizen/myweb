@@ -22,7 +22,10 @@ import {
   Radio, 
   Award,
   Clock,
-  ExternalLink
+  ExternalLink,
+  MessageSquare,
+  Flame,
+  Star
 } from 'lucide-react';
 
 type Currency = 'USD' | 'GBP' | 'CAD';
@@ -71,19 +74,19 @@ const CURRENCY_SYMBOLS: Record<Currency, string> = {
 const FAQ_ITEMS = [
   {
     q: 'How do I receive my login credentials after subscribing?',
-    a: 'Delivery is instantaneous. Within 60 seconds of completing your checkout, your username, password, M3U playlist link, and Xtream Codes API credentials will be sent directly to your email address and displayed on screen.'
+    a: 'Delivery is instantaneous. Once you contact us via WhatsApp or Telegram with your chosen plan, your username, password, M3U playlist link, and Xtream Codes API credentials will be delivered within 60 seconds.'
   },
   {
     q: 'Can I test the service before purchasing a full subscription?',
-    a: 'Yes! We offer a fully functional 24-hour trial pass so you can test our 20,000+ live channels, sports packages, and 4K VOD library on your preferred device with zero obligation.'
+    a: 'Yes! Request our 24-hour trial pass via WhatsApp, Telegram, or Discord to test our 20,000+ live channels, sports packages, and 4K VOD library on your preferred device with zero obligation.'
   },
   {
-    q: 'What devices and apps are compatible with Aether TV?',
-    a: 'Aether TV works seamlessly on Amazon Firestick, Android TV, Apple TV, Smart TVs (Samsung, LG, Sony), iOS & Android smartphones/tablets, MAG boxes, Enigma2, and PCs/Macs using popular players like IPTV Smarters Pro, TiviMate, IBO Player, or VLC.'
+    q: 'What devices and apps are compatible with IPTV Prime?',
+    a: 'IPTV Prime works seamlessly on Amazon Firestick, Android TV, Apple TV, Smart TVs (Samsung, LG, Sony), iOS & Android smartphones/tablets, MAG boxes, Enigma2, and PCs/Macs using popular players like IPTV Smarters Pro, TiviMate, IBO Player, or VLC.'
   },
   {
     q: 'What payment methods do you accept?',
-    a: 'We accept all major credit and debit cards (Visa, Mastercard, American Express) processed securely via encrypted gateways, as well as PayPal and select cryptocurrencies (Bitcoin, USDT).'
+    a: 'We accept all major credit and debit cards, PayPal, and select cryptocurrencies (Bitcoin, USDT). Message our support team to complete your secure payment.'
   },
   {
     q: 'What is your refund policy?',
@@ -91,16 +94,16 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Is IPTV legal to use in the USA, UK, and Canada?',
-    a: 'Aether TV operates as an independent media delivery infrastructure provider. Users are solely responsible for ensuring that their use of the service complies with local broadcast regulations and copyright laws in their respective jurisdictions.'
+    a: 'IPTV Prime operates as an independent media delivery infrastructure provider. Users are solely responsible for ensuring that their use of the service complies with local broadcast regulations and copyright laws in their respective jurisdictions.'
   }
 ];
 
 const CATEGORIES = [
-  { name: 'Live Sports (PPV)', count: '1,200+ Channels', icon: Radio },
+  { name: 'Live Sports & PPV', count: '1,200+ Channels', icon: Radio },
   { name: 'USA Networks', count: '4,500+ Channels', icon: Globe },
   { name: 'UK & Ireland', count: '3,200+ Channels', icon: Tv },
   { name: 'Canada & International', count: '4,000+ Channels', icon: Globe },
-  { name: 'Movies & VOD', count: '60,000+ Titles', icon: Film },
+  { name: 'Movies & VOD Library', count: '60,000+ Titles', icon: Film },
   { name: '24/7 Series & Boxsets', count: '800+ Shows', icon: Sparkles }
 ];
 
@@ -110,18 +113,10 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   
-  // Checkout Modal State
-  const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
-  const [selectedPlanForCheckout, setSelectedPlanForCheckout] = useState<Plan>(PLANS[2]); // Default 12 month
-  const [checkoutStep, setCheckoutStep] = useState<'form' | 'success'>('form');
-  const [customerEmail, setCustomerEmail] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal' | 'crypto'>('card');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Trial Modal State
-  const [trialModalOpen, setTrialModalOpen] = useState(false);
-  const [trialSubmitted, setTrialSubmitted] = useState(false);
-  const [trialEmail, setTrialEmail] = useState('');
+  // Modal State
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<'subscribe' | 'trial'>('subscribe');
+  const [selectedPlan, setSelectedPlan] = useState<Plan>(PLANS[2]);
 
   // Channel Preview Modal
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
@@ -135,25 +130,15 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const openCheckout = (plan: Plan) => {
-    setSelectedPlanForCheckout(plan);
-    setCheckoutStep('form');
-    setCheckoutModalOpen(true);
+  const openModal = (type: 'subscribe' | 'trial', plan: Plan = PLANS[2]) => {
+    setModalType(type);
+    setSelectedPlan(plan);
+    setModalOpen(true);
   };
 
-  const handleCheckoutSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setCheckoutStep('success');
-    }, 1200);
-  };
-
-  const handleTrialSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setTrialSubmitted(true);
-  };
+  const whatsappLink = `https://wa.me/447731454811?text=${encodeURIComponent(modalType === 'subscribe' ? `Hi, I want to subscribe to the ${selectedPlan.name} (${selectedPlan.duration}) on IPTV Prime.` : 'Hi, I would like to request a 24-hour free trial for IPTV Prime.')}`;
+  const telegramLink = `https://t.me/+447731454811`;
+  const discordLink = `https://discord.com/invite/QyNQRYwJj3`;
 
   return (
     <div className="min-h-screen bg-[#121212] text-[#F5F2EC] font-sans selection:bg-[#C9A96E] selection:text-[#121212]">
@@ -165,8 +150,8 @@ export default function App() {
             <a href="#" className="flex items-center gap-2 text-2xl font-serif font-bold tracking-wider text-[#F5F2EC]">
               IPTV<span className="text-[#C9A96E]">.</span>PRIME
             </a>
-            <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] uppercase tracking-widest bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] rounded-xs font-mono">
-              USA • UK • CAN
+            <span className="hidden sm:inline-block px-2.5 py-0.5 text-[10px] uppercase tracking-widest bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] rounded-xs font-mono">
+              🇺🇸 🇬🇧 🇨🇦 Official Server
             </span>
           </div>
 
@@ -177,6 +162,7 @@ export default function App() {
             <a href="#how-it-works" className="hover:text-[#C9A96E] transition-colors">How It Works</a>
             <a href="#compatibility" className="hover:text-[#C9A96E] transition-colors">Devices</a>
             <a href="#faq" className="hover:text-[#C9A96E] transition-colors">FAQ</a>
+            <a href="#contact" className="hover:text-[#C9A96E] transition-colors">Contact</a>
           </div>
 
           {/* Right Actions: Currency Selector & CTA */}
@@ -194,9 +180,10 @@ export default function App() {
             </div>
 
             <button
-              onClick={() => openCheckout(PLANS[2])}
-              className="bg-[#C9A96E] text-[#121212] px-5 py-2.5 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-transparent hover:text-[#C9A96E] hover:border-[#C9A96E] border border-transparent transition-all shadow-lg"
+              onClick={() => openModal('subscribe', PLANS[2])}
+              className="bg-[#C9A96E] text-[#121212] px-5 py-2.5 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-transparent hover:text-[#C9A96E] hover:border-[#C9A96E] border border-transparent transition-all shadow-lg flex items-center gap-2"
             >
+              <Zap size={14} className="fill-[#121212]" />
               Start Subscription
             </button>
           </div>
@@ -226,14 +213,15 @@ export default function App() {
 
         {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-[#1A1A1A] border-b border-[#2D2D2D] px-6 py-6 flex flex-col gap-4 shadow-2xl">
-            <a href="#channels" onClick={() => setMobileMenuOpen(false)} className="text-lg text-[#F5F2EC]/90 hover:text-[#C9A96E]">Channels</a>
-            <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-lg text-[#F5F2EC]/90 hover:text-[#C9A96E]">Pricing</a>
-            <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-lg text-[#F5F2EC]/90 hover:text-[#C9A96E]">How It Works</a>
-            <a href="#compatibility" onClick={() => setMobileMenuOpen(false)} className="text-lg text-[#F5F2EC]/90 hover:text-[#C9A96E]">Devices</a>
-            <a href="#faq" onClick={() => setMobileMenuOpen(false)} className="text-lg text-[#F5F2EC]/90 hover:text-[#C9A96E]">FAQ</a>
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-[#1A1A1A] border-b border-[#2D2D2D] px-6 py-6 flex flex-col gap-4 shadow-2xl animate-in fade-in duration-200">
+            <a href="#channels" onClick={() => setMobileMenuOpen(false)} className="text-base text-[#F5F2EC]/90 hover:text-[#C9A96E]">Channels</a>
+            <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-base text-[#F5F2EC]/90 hover:text-[#C9A96E]">Pricing</a>
+            <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-base text-[#F5F2EC]/90 hover:text-[#C9A96E]">How It Works</a>
+            <a href="#compatibility" onClick={() => setMobileMenuOpen(false)} className="text-base text-[#F5F2EC]/90 hover:text-[#C9A96E]">Devices</a>
+            <a href="#faq" onClick={() => setMobileMenuOpen(false)} className="text-base text-[#F5F2EC]/90 hover:text-[#C9A96E]">FAQ</a>
+            <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="text-base text-[#F5F2EC]/90 hover:text-[#C9A96E]">Contact</a>
             <button
-              onClick={() => { setMobileMenuOpen(false); openCheckout(PLANS[2]); }}
+              onClick={() => { setMobileMenuOpen(false); openModal('subscribe', PLANS[2]); }}
               className="w-full bg-[#C9A96E] text-[#121212] py-3 text-sm font-bold tracking-widest uppercase rounded-[2px] mt-2 text-center"
             >
               Start Subscription
@@ -243,37 +231,37 @@ export default function App() {
       </nav>
 
       {/* CINEMATIC HERO SECTION */}
-      <section className="relative min-h-[92vh] flex items-center justify-center pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative min-h-[92vh] flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Background Image with Cinematic Dark Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&q=80&w=2000" 
             alt="Cinematic IPTV Streaming" 
-            className="w-full h-full object-cover object-center opacity-35 scale-105 animate-pulse duration-[10000ms]"
+            className="w-full h-full object-cover object-center opacity-30 scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/80 to-[#121212]/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/85 to-[#121212]/50" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#121212]/70 to-[#121212]" />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           
           {/* Trust Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A1A1A]/90 border border-[#2D2D2D] mb-8 shadow-lg">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-            <span className="text-xs tracking-wider text-[#F5F2EC]/90 font-mono">
-              🇺🇸 USA • 🇬🇧 UK • 🇨🇦 CANADA PRIME SERVERS ONLINE (99.99%)
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#1A1A1A]/90 border border-[#2D2D2D] mb-8 shadow-xl backdrop-blur-md">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-xs tracking-widest text-[#F5F2EC]/90 font-mono font-medium">
+              🇺🇸 USA • 🇬🇧 UK • 🇨🇦 CANADA 4K SERVERS ONLINE
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-bold tracking-tight text-[#F5F2EC] mb-6 leading-[1.1]">
             Live TV. Sports. Movies. <br />
-            <span className="text-[#C9A96E] italic font-normal">One subscription.</span>
+            <span className="text-[#C9A96E] italic font-normal">One ultimate subscription.</span>
           </h1>
 
           {/* Subheadline */}
-          <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-[#F5F2EC]/70 mb-10 leading-relaxed font-light">
-            Stream over 20,000 global channels, 60,000+ VOD movies, and live 4K PPV sports events without buffering. Compatible with all devices in North America and the UK.
+          <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-[#F5F2EC]/75 mb-10 leading-relaxed font-light">
+            Stream 20,000+ live channels, 60,000+ VOD movies, and live 4K PPV sports events without buffering. Instant activation via WhatsApp & Telegram.
           </p>
 
           {/* CTAs */}
@@ -287,8 +275,8 @@ export default function App() {
             </a>
             
             <button
-              onClick={() => setTrialModalOpen(true)}
-              className="w-full sm:w-auto bg-[#1A1A1A] text-[#F5F2EC] border border-[#2D2D2D] px-8 py-4 text-sm font-bold tracking-widest uppercase rounded-[2px] hover:border-[#C9A96E] hover:text-[#C9A96E] transition-all flex items-center justify-center gap-3"
+              onClick={() => openModal('trial')}
+              className="w-full sm:w-auto bg-[#1A1A1A] text-[#F5F2EC] border border-[#2D2D2D] px-8 py-4 text-sm font-bold tracking-widest uppercase rounded-[2px] hover:border-[#C9A96E] hover:text-[#C9A96E] transition-all flex items-center justify-center gap-3 shadow-lg"
             >
               <Play size={15} className="fill-[#C9A96E] text-[#C9A96E]" />
               Start 24H Free Trial
@@ -297,21 +285,21 @@ export default function App() {
 
           {/* Feature Ticker / Trust Bar */}
           <div className="mt-20 pt-10 border-t border-[#2D2D2D]/60 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center p-4 bg-[#1A1A1A]/40 border border-[#2D2D2D]/40 rounded-[2px]">
               <span className="text-2xl sm:text-3xl font-serif font-bold text-[#C9A96E]">20,000+</span>
-              <span className="text-xs uppercase tracking-widest text-[#F5F2EC]/60 mt-1">Live Channels</span>
+              <span className="text-xs uppercase tracking-widest text-[#F5F2EC]/60 mt-1 font-mono">Live Channels</span>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center p-4 bg-[#1A1A1A]/40 border border-[#2D2D2D]/40 rounded-[2px]">
               <span className="text-2xl sm:text-3xl font-serif font-bold text-[#C9A96E]">60,000+</span>
-              <span className="text-xs uppercase tracking-widest text-[#F5F2EC]/60 mt-1">VOD Movies & Series</span>
+              <span className="text-xs uppercase tracking-widest text-[#F5F2EC]/60 mt-1 font-mono">VOD Movies & Series</span>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center p-4 bg-[#1A1A1A]/40 border border-[#2D2D2D]/40 rounded-[2px]">
               <span className="text-2xl sm:text-3xl font-serif font-bold text-[#C9A96E]">4K / FHD</span>
-              <span className="text-xs uppercase tracking-widest text-[#F5F2EC]/60 mt-1">Ultra HD Quality</span>
+              <span className="text-xs uppercase tracking-widest text-[#F5F2EC]/60 mt-1 font-mono">Ultra HD Quality</span>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center p-4 bg-[#1A1A1A]/40 border border-[#2D2D2D]/40 rounded-[2px]">
               <span className="text-2xl sm:text-3xl font-serif font-bold text-[#C9A96E]">99.9%</span>
-              <span className="text-xs uppercase tracking-widest text-[#F5F2EC]/60 mt-1">Uptime Anti-Buffer</span>
+              <span className="text-xs uppercase tracking-widest text-[#F5F2EC]/60 mt-1 font-mono">Anti-Buffer Uptime</span>
             </div>
           </div>
 
@@ -319,17 +307,17 @@ export default function App() {
       </section>
 
       {/* TRUST / COMPATIBILITY LOGO STRIP */}
-      <div className="border-y border-[#2D2D2D] bg-[#1A1A1A]/40 py-8">
+      <div className="border-y border-[#2D2D2D] bg-[#1A1A1A]/60 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-xs uppercase tracking-widest text-[#F5F2EC]/40 mb-6 font-mono">
-            Optimized for all major streaming devices & payment providers
+          <p className="text-xs uppercase tracking-widest text-[#F5F2EC]/50 mb-6 font-mono">
+            Compatible with all major streaming devices & media players
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all">
-            <span className="text-sm font-serif tracking-wider font-semibold">AMAZON FIRESTICK</span>
-            <span className="text-sm font-serif tracking-wider font-semibold">SAMSUNG & LG SMART TV</span>
-            <span className="text-sm font-serif tracking-wider font-semibold">APPLE TV & IOS</span>
-            <span className="text-sm font-serif tracking-wider font-semibold">ANDROID TV & BOX</span>
-            <span className="text-sm font-serif tracking-wider font-semibold">VISA • MASTERCARD • PAYPAL</span>
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 opacity-70">
+            <span className="text-sm font-serif tracking-wider font-semibold text-[#F5F2EC]">AMAZON FIRESTICK</span>
+            <span className="text-sm font-serif tracking-wider font-semibold text-[#F5F2EC]">SAMSUNG & LG SMART TV</span>
+            <span className="text-sm font-serif tracking-wider font-semibold text-[#F5F2EC]">APPLE TV & IOS</span>
+            <span className="text-sm font-serif tracking-wider font-semibold text-[#F5F2EC]">ANDROID TV & BOX</span>
+            <span className="text-sm font-serif tracking-wider font-semibold text-[#F5F2EC]">TIVIMATE • SMARTERS PRO</span>
           </div>
         </div>
       </div>
@@ -348,7 +336,7 @@ export default function App() {
           </p>
         </div>
 
-        {/* Category Row (No cards, minimalist editorial list) */}
+        {/* Category Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {CATEGORIES.map((cat, idx) => {
             const Icon = cat.icon;
@@ -359,10 +347,10 @@ export default function App() {
                   setActiveCategoryPreview(cat);
                   setPreviewModalOpen(true);
                 }}
-                className="group p-6 bg-[#1A1A1A] border border-[#2D2D2D] hover:border-[#C9A96E] transition-all cursor-pointer rounded-[2px] flex items-center justify-between"
+                className="group p-6 bg-[#1A1A1A] border border-[#2D2D2D] hover:border-[#C9A96E] transition-all cursor-pointer rounded-[2px] flex items-center justify-between shadow-lg"
               >
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] group-hover:bg-[#C9A96E] group-hover:text-[#121212] transition-colors">
+                  <div className="p-3.5 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] group-hover:bg-[#C9A96E] group-hover:text-[#121212] transition-colors rounded-[2px]">
                     <Icon size={22} />
                   </div>
                   <div>
@@ -394,8 +382,8 @@ export default function App() {
             All plans include full access to 20,000+ channels, 60,000+ VODs, 3 simultaneous screens, and free EPG updates. No hidden fees.
           </p>
 
-          {/* Currency Toggle inside Pricing */}
-          <div className="inline-flex items-center bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] p-1 mt-8">
+          {/* Currency Toggle */}
+          <div className="inline-flex items-center bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] p-1 mt-8 shadow-md">
             {(['USD', 'GBP', 'CAD'] as Currency[]).map((c) => (
               <button
                 key={c}
@@ -420,7 +408,8 @@ export default function App() {
                 className={`relative bg-[#1A1A1A] border flex flex-col justify-between transition-all rounded-[2px] ${plan.popular ? 'border-[#C9A96E] shadow-2xl lg:-translate-y-2 bg-gradient-to-b from-[#1A1A1A] to-[#222222]' : 'border-[#2D2D2D] hover:border-[#C9A96E]/50'}`}
               >
                 {plan.badge && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#C9A96E] text-[#121212] px-4 py-1 text-[11px] font-bold uppercase tracking-widest rounded-[2px] shadow-md">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#C9A96E] text-[#121212] px-4 py-1 text-[11px] font-bold uppercase tracking-widest rounded-[2px] shadow-md flex items-center gap-1.5">
+                    <Star size={12} className="fill-[#121212]" />
                     {plan.badge}
                   </div>
                 )}
@@ -443,7 +432,7 @@ export default function App() {
                       <span className="text-4xl sm:text-5xl font-serif font-bold text-[#F5F2EC]">{symbol}{price.toFixed(2)}</span>
                       <span className="text-xs text-[#F5F2EC]/50 font-mono">/ {plan.duration.toLowerCase()}</span>
                     </div>
-                    <p className="text-xs text-[#F5F2EC]/60 mt-2">Billed once. Instant automatic activation.</p>
+                    <p className="text-xs text-[#F5F2EC]/60 mt-2">Billed once. Instant delivery via WhatsApp or Telegram.</p>
                   </div>
 
                   <ul className="space-y-3.5 text-sm text-[#F5F2EC]/80 mb-8">
@@ -480,7 +469,7 @@ export default function App() {
 
                 <div className="p-8 pt-0">
                   <button
-                    onClick={() => openCheckout(plan)}
+                    onClick={() => openModal('subscribe', plan)}
                     className={`w-full py-4 text-xs font-bold tracking-widest uppercase rounded-[2px] transition-all flex items-center justify-center gap-2 ${plan.popular ? 'bg-[#C9A96E] text-[#121212] hover:bg-[#D8B97E]' : 'bg-[#222222] text-[#F5F2EC] border border-[#2D2D2D] hover:bg-[#C9A96E] hover:text-[#121212] hover:border-[#C9A96E]'}`}
                   >
                     Subscribe Now
@@ -493,9 +482,9 @@ export default function App() {
         </div>
 
         {/* Money Back Guarantee Banner */}
-        <div className="mt-12 p-6 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="mt-12 p-6 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E]">
+            <div className="p-3.5 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] rounded-[2px]">
               <ShieldCheck size={28} />
             </div>
             <div>
@@ -504,7 +493,7 @@ export default function App() {
             </div>
           </div>
           <button
-            onClick={() => setTrialModalOpen(true)}
+            onClick={() => openModal('trial')}
             className="text-xs uppercase font-bold tracking-widest text-[#C9A96E] hover:underline shrink-0"
           >
             Want to test first? Get 24H Trial →
@@ -519,7 +508,7 @@ export default function App() {
             Simple 3-Step Setup
           </span>
           <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[#F5F2EC] mb-4">
-            How Aether TV Works
+            How IPTV Prime Works
           </h2>
           <p className="text-[#F5F2EC]/70 text-sm sm:text-base">
             No complex satellite dishes or antenna installation. Get connected in less than 2 minutes.
@@ -527,31 +516,31 @@ export default function App() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-8 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] relative">
+          <div className="p-8 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] relative shadow-lg">
             <span className="text-4xl font-serif font-bold text-[#C9A96E]/20 absolute top-4 right-6">01</span>
-            <div className="w-10 h-10 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] flex items-center justify-center font-serif font-bold text-lg mb-6">
+            <div className="w-10 h-10 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] flex items-center justify-center font-serif font-bold text-lg mb-6 rounded-[2px]">
               1
             </div>
             <h3 className="text-xl font-serif font-bold text-[#F5F2EC] mb-3">Choose Your Pass</h3>
             <p className="text-sm text-[#F5F2EC]/70 leading-relaxed">
-              Select a subscription duration that suits your needs (Monthly, Quarterly, or Annual VIP). Complete your secure checkout.
+              Select a subscription duration that suits your needs. Contact us directly via WhatsApp or Telegram to activate.
             </p>
           </div>
 
-          <div className="p-8 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] relative">
+          <div className="p-8 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] relative shadow-lg">
             <span className="text-4xl font-serif font-bold text-[#C9A96E]/20 absolute top-4 right-6">02</span>
-            <div className="w-10 h-10 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] flex items-center justify-center font-serif font-bold text-lg mb-6">
+            <div className="w-10 h-10 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] flex items-center justify-center font-serif font-bold text-lg mb-6 rounded-[2px]">
               2
             </div>
-            <h3 className="text-xl font-serif font-bold text-[#F5F2EC] mb-3">Receive Credentials</h3>
+            <h3 className="text-xl font-serif font-bold text-[#F5F2EC] mb-3">Instant Delivery</h3>
             <p className="text-sm text-[#F5F2EC]/70 leading-relaxed">
-              Instant delivery to your email. Get your M3U playlist URL, Xtream Codes API details, and easy step-by-step setup guides.
+              Receive your M3U playlist URL, Xtream Codes API details, and easy step-by-step setup guides directly in your chat within 60 seconds.
             </p>
           </div>
 
-          <div className="p-8 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] relative">
+          <div className="p-8 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] relative shadow-lg">
             <span className="text-4xl font-serif font-bold text-[#C9A96E]/20 absolute top-4 right-6">03</span>
-            <div className="w-10 h-10 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] flex items-center justify-center font-serif font-bold text-lg mb-6">
+            <div className="w-10 h-10 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] flex items-center justify-center font-serif font-bold text-lg mb-6 rounded-[2px]">
               3
             </div>
             <h3 className="text-xl font-serif font-bold text-[#F5F2EC] mb-3">Start Streaming</h3>
@@ -573,12 +562,12 @@ export default function App() {
               Stream on Any Device, Anywhere in USA, UK & Canada
             </h2>
             <p className="text-[#F5F2EC]/70 text-sm sm:text-base mb-8 leading-relaxed">
-              Whether you use an Amazon Firestick on your living room TV, an Apple TV in the bedroom, or your tablet on the go, Aether TV is fully optimized for all standard IPTV protocols (M3U, Xtream Codes API, MAG).
+              Whether you use an Amazon Firestick on your living room TV, an Apple TV in the bedroom, or your tablet on the go, IPTV Prime is fully optimized for all standard IPTV protocols (M3U, Xtream Codes API, MAG).
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {['Amazon Firestick', 'Smart TV (Samsung/LG)', 'Apple TV & iOS', 'Android TV & Box', 'MAG & Enigma2', 'Windows & Mac'].map((dev, idx) => (
-                <div key={idx} className="p-4 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] flex items-center gap-3">
+                <div key={idx} className="p-4 bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] flex items-center gap-3 shadow-md">
                   <Check size={16} className="text-[#C9A96E] shrink-0" />
                   <span className="text-xs font-semibold text-[#F5F2EC]">{dev}</span>
                 </div>
@@ -586,11 +575,11 @@ export default function App() {
             </div>
           </div>
 
-          <div className="relative bg-[#1A1A1A] border border-[#2D2D2D] p-8 rounded-[2px] overflow-hidden">
+          <div className="relative bg-[#1A1A1A] border border-[#2D2D2D] p-8 rounded-[2px] overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 w-40 h-40 bg-[#C9A96E]/5 rounded-full blur-3xl pointer-events-none" />
             <div className="space-y-6">
               <div className="flex items-center gap-4 pb-6 border-b border-[#2D2D2D]">
-                <div className="p-3 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E]">
+                <div className="p-3.5 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] rounded-[2px]">
                   <Server size={24} />
                 </div>
                 <div>
@@ -600,7 +589,7 @@ export default function App() {
               </div>
 
               <div className="flex items-center gap-4 pb-6 border-b border-[#2D2D2D]">
-                <div className="p-3 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E]">
+                <div className="p-3.5 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] rounded-[2px]">
                   <Zap size={24} />
                 </div>
                 <div>
@@ -610,12 +599,12 @@ export default function App() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E]">
+                <div className="p-3.5 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] rounded-[2px]">
                   <Headphones size={24} />
                 </div>
                 <div>
-                  <h4 className="font-serif font-bold text-base text-[#F5F2EC]">24/7 Technical Support</h4>
-                  <p className="text-xs text-[#F5F2EC]/60">Live ticket and Telegram assistance whenever you need help.</p>
+                  <h4 className="font-serif font-bold text-base text-[#F5F2EC]">24/7 VIP Support</h4>
+                  <p className="text-xs text-[#F5F2EC]/60">Instant WhatsApp & Telegram assistance whenever you need help.</p>
                 </div>
               </div>
             </div>
@@ -643,7 +632,7 @@ export default function App() {
             return (
               <div 
                 key={idx}
-                className="bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] overflow-hidden transition-all"
+                className="bg-[#1A1A1A] border border-[#2D2D2D] rounded-[2px] overflow-hidden transition-all shadow-md"
               >
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : idx)}
@@ -662,6 +651,75 @@ export default function App() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* CONTACT & DIRECT MESSAGING SECTION */}
+      <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#2D2D2D]/60 text-center">
+        <span className="text-xs uppercase tracking-widest text-[#C9A96E] font-mono mb-3 block">
+          24/7 Instant Support & Sales
+        </span>
+        <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[#F5F2EC] mb-6">
+          Connect With Us Instantly
+        </h2>
+        <p className="text-[#F5F2EC]/70 max-w-2xl mx-auto mb-12 text-sm sm:text-base">
+          Ready to subscribe or need a 24-hour trial? Message our team directly on WhatsApp, Telegram, or join our Discord community for instant assistance.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-8 bg-[#1A1A1A] border border-[#2D2D2D] hover:border-[#25D366] transition-all rounded-[2px] flex flex-col items-center gap-4 group shadow-xl"
+          >
+            <div className="w-14 h-14 bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] flex items-center justify-center rounded-full group-hover:bg-[#25D366] group-hover:text-white transition-colors shadow-md">
+              <MessageSquare size={28} />
+            </div>
+            <div>
+              <h3 className="font-serif font-bold text-lg text-[#F5F2EC]">WhatsApp Chat</h3>
+              <p className="text-xs font-mono text-[#F5F2EC]/60 mt-1">Instant VIP Reply</p>
+            </div>
+            <span className="text-xs text-[#25D366] font-semibold mt-2 flex items-center gap-1.5">
+              Open WhatsApp <ExternalLink size={12} />
+            </span>
+          </a>
+
+          <a
+            href={telegramLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-8 bg-[#1A1A1A] border border-[#2D2D2D] hover:border-[#0088cc] transition-all rounded-[2px] flex flex-col items-center gap-4 group shadow-xl"
+          >
+            <div className="w-14 h-14 bg-[#0088cc]/10 border border-[#0088cc]/30 text-[#0088cc] flex items-center justify-center rounded-full group-hover:bg-[#0088cc] group-hover:text-white transition-colors shadow-md">
+              <Radio size={28} />
+            </div>
+            <div>
+              <h3 className="font-serif font-bold text-lg text-[#F5F2EC]">Telegram Desk</h3>
+              <p className="text-xs font-mono text-[#F5F2EC]/60 mt-1">24/7 Active</p>
+            </div>
+            <span className="text-xs text-[#0088cc] font-semibold mt-2 flex items-center gap-1.5">
+              Open Telegram <ExternalLink size={12} />
+            </span>
+          </a>
+
+          <a
+            href={discordLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-8 bg-[#1A1A1A] border border-[#2D2D2D] hover:border-[#5865F2] transition-all rounded-[2px] flex flex-col items-center gap-4 group shadow-xl"
+          >
+            <div className="w-14 h-14 bg-[#5865F2]/10 border border-[#5865F2]/30 text-[#5865F2] flex items-center justify-center rounded-full group-hover:bg-[#5865F2] group-hover:text-white transition-colors shadow-md">
+              <Award size={28} />
+            </div>
+            <div>
+              <h3 className="font-serif font-bold text-lg text-[#F5F2EC]">Discord Community</h3>
+              <p className="text-xs font-mono text-[#F5F2EC]/60 mt-1">Join Server</p>
+            </div>
+            <span className="text-xs text-[#5865F2] font-semibold mt-2 flex items-center gap-1.5">
+              Join Discord <ExternalLink size={12} />
+            </span>
+          </a>
         </div>
       </section>
 
@@ -689,30 +747,29 @@ export default function App() {
               <li><a href="#pricing" className="hover:text-[#C9A96E] transition-colors">Subscription Plans</a></li>
               <li><a href="#how-it-works" className="hover:text-[#C9A96E] transition-colors">How It Works</a></li>
               <li><a href="#compatibility" className="hover:text-[#C9A96E] transition-colors">Device Setup</a></li>
-              <li><a href="#faq" className="hover:text-[#C9A96E] transition-colors">FAQ & Support</a></li>
+              <li><a href="#contact" className="hover:text-[#C9A96E] transition-colors">Contact & Support</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-xs font-mono uppercase tracking-widest text-[#C9A96E] mb-4">Secure Checkout</h4>
+            <h4 className="text-xs font-mono uppercase tracking-widest text-[#C9A96E] mb-4">Direct Messaging</h4>
             <ul className="space-y-2.5 text-sm text-[#F5F2EC]/70">
-              <li><span className="hover:text-[#C9A96E] transition-colors cursor-pointer">Visa & Mastercard</span></li>
-              <li><span className="hover:text-[#C9A96E] transition-colors cursor-pointer">American Express</span></li>
-              <li><span className="hover:text-[#C9A96E] transition-colors cursor-pointer">PayPal Verified</span></li>
-              <li><span className="hover:text-[#C9A96E] transition-colors cursor-pointer">Crypto (BTC / USDT)</span></li>
+              <li><a href={whatsappLink} target="_blank" rel="noreferrer" className="hover:text-[#C9A96E] transition-colors">WhatsApp Chat</a></li>
+              <li><a href={telegramLink} target="_blank" rel="noreferrer" className="hover:text-[#C9A96E] transition-colors">Telegram Support</a></li>
+              <li><a href={discordLink} target="_blank" rel="noreferrer" className="hover:text-[#C9A96E] transition-colors">Discord Community</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-xs font-mono uppercase tracking-widest text-[#C9A96E] mb-4">Support & Contact</h4>
+            <h4 className="text-xs font-mono uppercase tracking-widest text-[#C9A96E] mb-4">Secure Activation</h4>
             <p className="text-xs text-[#F5F2EC]/60 mb-3 leading-relaxed">
-              Our support desk is active 24/7/365 to assist with setup and connection inquiries.
+              Instant activation and delivery within 60 seconds of contacting our sales desk.
             </p>
             <button
-              onClick={() => setCheckoutModalOpen(true)}
-              className="w-full bg-[#222222] border border-[#2D2D2D] hover:border-[#C9A96E] text-[#F5F2EC] py-2.5 text-xs font-bold tracking-widest uppercase rounded-[2px] transition-all"
+              onClick={() => openModal('subscribe', PLANS[2])}
+              className="w-full bg-[#C9A96E] text-[#121212] py-2.5 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-[#D8B97E] transition-all"
             >
-              Contact VIP Support
+              Get Started Now
             </button>
           </div>
 
@@ -726,192 +783,76 @@ export default function App() {
         </div>
       </footer>
 
-      {/* CHECKOUT MODAL */}
-      {checkoutModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#1A1A1A] border border-[#2D2D2D] max-w-lg w-full rounded-[2px] p-6 sm:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      {/* DIRECT CONTACT & ACTIVATION MODAL (Clean, Phone Numbers Hidden) */}
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+          <div className="bg-[#1A1A1A] border border-[#2D2D2D] max-w-md w-full rounded-[2px] p-6 sm:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <button
-              onClick={() => setCheckoutModalOpen(false)}
-              className="absolute top-4 right-4 text-[#F5F2EC]/60 hover:text-[#C9A96E] transition-colors"
+              onClick={() => setModalOpen(false)}
+              className="absolute top-4 right-4 text-[#F5F2EC]/60 hover:text-[#C9A96E] transition-colors p-1"
             >
               <X size={20} />
             </button>
 
-            {checkoutStep === 'form' ? (
-              <form onSubmit={handleCheckoutSubmit} className="space-y-6">
-                <div>
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-[#C9A96E] block mb-1">Secure Checkout</span>
-                  <h3 className="text-2xl font-serif font-bold text-[#F5F2EC]">{selectedPlanForCheckout.name}</h3>
-                  <p className="text-xs text-[#F5F2EC]/60 mt-1">
-                    Total: <strong className="text-[#C9A96E]">{CURRENCY_SYMBOLS[currency]}{selectedPlanForCheckout.prices[currency].toFixed(2)} {currency}</strong> ({selectedPlanForCheckout.duration})
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-[#F5F2EC]/80 mb-2">
-                      Email Address (for instant credential delivery)
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={customerEmail}
-                      onChange={(e) => setCustomerEmail(e.target.value)}
-                      placeholder="your.email@domain.com"
-                      className="w-full bg-[#121212] border border-[#2D2D2D] rounded-[2px] px-4 py-3 text-sm text-[#F5F2EC] focus:border-[#C9A96E] focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-[#F5F2EC]/80 mb-2">
-                      Select Payment Method
-                    </label>
-                    <div className="grid grid-cols-3 gap-3">
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('card')}
-                        className={`p-3 text-xs font-semibold border rounded-[2px] flex flex-col items-center gap-2 transition-all ${paymentMethod === 'card' ? 'border-[#C9A96E] bg-[#C9A96E]/10 text-[#C9A96E]' : 'border-[#2D2D2D] bg-[#121212] text-[#F5F2EC]/70'}`}
-                      >
-                        <CreditCard size={18} />
-                        Card (Stripe)
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('paypal')}
-                        className={`p-3 text-xs font-semibold border rounded-[2px] flex flex-col items-center gap-2 transition-all ${paymentMethod === 'paypal' ? 'border-[#C9A96E] bg-[#C9A96E]/10 text-[#C9A96E]' : 'border-[#2D2D2D] bg-[#121212] text-[#F5F2EC]/70'}`}
-                      >
-                        <Lock size={18} />
-                        PayPal
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('crypto')}
-                        className={`p-3 text-xs font-semibold border rounded-[2px] flex flex-col items-center gap-2 transition-all ${paymentMethod === 'crypto' ? 'border-[#C9A96E] bg-[#C9A96E]/10 text-[#C9A96E]' : 'border-[#2D2D2D] bg-[#121212] text-[#F5F2EC]/70'}`}
-                      >
-                        <Globe size={18} />
-                        Crypto
-                      </button>
-                    </div>
-                  </div>
-
-                  {paymentMethod === 'card' && (
-                    <div className="space-y-3 pt-2">
-                      <div>
-                        <label className="block text-[11px] font-mono text-[#F5F2EC]/60 mb-1">Card Number</label>
-                        <input type="text" placeholder="4242 •••• •••• 4242" disabled className="w-full bg-[#121212] border border-[#2D2D2D] rounded-[2px] px-3 py-2 text-xs text-[#F5F2EC]/40" />
-                      </div>
-                      <div className="grid grid-cols-2 gap-3">
-                        <input type="text" placeholder="MM / YY" disabled className="w-full bg-[#121212] border border-[#2D2D2D] rounded-[2px] px-3 py-2 text-xs text-[#F5F2EC]/40" />
-                        <input type="text" placeholder="CVC" disabled className="w-full bg-[#121212] border border-[#2D2D2D] rounded-[2px] px-3 py-2 text-xs text-[#F5F2EC]/40" />
-                      </div>
-                      <p className="text-[10px] text-emerald-400 font-mono">Mock secure checkout gateway active.</p>
-                    </div>
-                  )}
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-[#C9A96E] text-[#121212] py-4 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-[#D8B97E] transition-all flex items-center justify-center gap-2"
-                >
-                  {isSubmitting ? (
-                    <>Processing Secure Payment...</>
-                  ) : (
-                    <>Complete Order ({CURRENCY_SYMBOLS[currency]}{selectedPlanForCheckout.prices[currency].toFixed(2)})</>
-                  )}
-                </button>
-              </form>
-            ) : (
-              <div className="text-center py-6 space-y-4">
-                <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Check size={32} />
-                </div>
-                <h3 className="text-2xl font-serif font-bold text-[#F5F2EC]">Subscription Activated!</h3>
-                <p className="text-sm text-[#F5F2EC]/70">
-                  Your mock order was successful. Credentials and M3U playlist link have been dispatched to <strong className="text-[#C9A96E]">{customerEmail}</strong>.
+            <div className="text-center space-y-6">
+              <div>
+                <span className="inline-block px-3 py-1 bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] text-[10px] uppercase font-mono tracking-widest rounded-[2px] mb-3">
+                  {modalType === 'subscribe' ? '⚡ Instant Order Activation' : '🎁 24-Hour Free Trial Pass'}
+                </span>
+                <h3 className="text-2xl font-serif font-bold text-[#F5F2EC]">
+                  {modalType === 'subscribe' ? selectedPlan.name : 'Claim Free Test Pass'}
+                </h3>
+                <p className="text-xs text-[#F5F2EC]/70 mt-2 leading-relaxed">
+                  {modalType === 'subscribe' 
+                    ? `Selected: ${selectedPlan.duration} Pass (${CURRENCY_SYMBOLS[currency]}${selectedPlan.prices[currency].toFixed(2)} ${currency}). Connect with us instantly to receive your login credentials within 60 seconds.`
+                    : 'Message our team on WhatsApp or Telegram to receive your 24-hour instant test line immediately with zero obligation.'}
                 </p>
-                <div className="p-4 bg-[#121212] border border-[#2D2D2D] text-left rounded-[2px] font-mono text-xs space-y-2">
-                  <p className="text-[#C9A96E]"># M3U Playlist: <span className="text-[#F5F2EC]/60">https://aether-tv.stream/get.php?username=vip...</span></p>
-                  <p className="text-[#C9A96E]"># Server URL: <span className="text-[#F5F2EC]/60">http://line.aether-tv.stream:8080</span></p>
-                </div>
-                <button
-                  onClick={() => setCheckoutModalOpen(false)}
-                  className="w-full bg-[#222222] border border-[#2D2D2D] hover:border-[#C9A96E] text-[#F5F2EC] py-3 text-xs font-bold tracking-widest uppercase rounded-[2px] transition-all mt-4"
-                >
-                  Close & Return to Site
-                </button>
               </div>
-            )}
-          </div>
-        </div>
-      )}
 
-      {/* 24-HOUR TRIAL MODAL */}
-      {trialModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#1A1A1A] border border-[#2D2D2D] max-w-md w-full rounded-[2px] p-6 sm:p-8 relative shadow-2xl">
-            <button
-              onClick={() => { setTrialModalOpen(false); setTrialSubmitted(false); }}
-              className="absolute top-4 right-4 text-[#F5F2EC]/60 hover:text-[#C9A96E] transition-colors"
-            >
-              <X size={20} />
-            </button>
-
-            {!trialSubmitted ? (
-              <form onSubmit={handleTrialSubmit} className="space-y-6">
-                <div>
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-[#C9A96E] block mb-1">Risk-Free Evaluation</span>
-                  <h3 className="text-2xl font-serif font-bold text-[#F5F2EC]">24-Hour Free Trial Pass</h3>
-                  <p className="text-xs text-[#F5F2EC]/60 mt-1">
-                    Experience all 20,000+ channels and 4K sports with zero credit card required.
-                  </p>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-[#F5F2EC]/80 mb-2">
-                    Where should we send your trial pass?
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={trialEmail}
-                    onChange={(e) => setTrialEmail(e.target.value)}
-                    placeholder="your.email@domain.com"
-                    className="w-full bg-[#121212] border border-[#2D2D2D] rounded-[2px] px-4 py-3 text-sm text-[#F5F2EC] focus:border-[#C9A96E] focus:outline-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-[#C9A96E] text-[#121212] py-4 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-[#D8B97E] transition-all"
+              <div className="space-y-3.5 pt-2">
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-[#25D366] text-white py-4 px-4 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-[#20ba5a] transition-all flex items-center justify-center gap-3 shadow-xl group"
                 >
-                  Generate 24H Trial Pass
-                </button>
-              </form>
-            ) : (
-              <div className="text-center py-6 space-y-4">
-                <div className="w-16 h-16 bg-[#C9A96E]/10 border border-[#C9A96E]/30 text-[#C9A96E] rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Sparkles size={30} />
-                </div>
-                <h3 className="text-2xl font-serif font-bold text-[#F5F2EC]">Trial Pass Dispatched!</h3>
-                <p className="text-sm text-[#F5F2EC]/70">
-                  Your 24-hour test credentials have been sent to <strong className="text-[#C9A96E]">{trialEmail}</strong>. Check your inbox or spam folder.
-                </p>
-                <button
-                  onClick={() => { setTrialModalOpen(false); setTrialSubmitted(false); }}
-                  className="w-full bg-[#222222] border border-[#2D2D2D] hover:border-[#C9A96E] text-[#F5F2EC] py-3 text-xs font-bold tracking-widest uppercase rounded-[2px] transition-all mt-4"
+                  <MessageSquare size={18} className="group-hover:scale-110 transition-transform" />
+                  Connect via WhatsApp
+                </a>
+
+                <a
+                  href={telegramLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-[#0088cc] text-white py-4 px-4 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-[#0077b5] transition-all flex items-center justify-center gap-3 shadow-xl group"
                 >
-                  Done
-                </button>
+                  <Radio size={18} className="group-hover:scale-110 transition-transform" />
+                  Connect via Telegram
+                </a>
+
+                <a
+                  href={discordLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-[#5865F2] text-white py-4 px-4 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-[#4752c4] transition-all flex items-center justify-center gap-3 shadow-xl group"
+                >
+                  <Award size={18} className="group-hover:scale-110 transition-transform" />
+                  Join Discord Community
+                </a>
               </div>
-            )}
+
+              <div className="pt-2 border-t border-[#2D2D2D]/60 flex items-center justify-center gap-2 text-[11px] text-[#F5F2EC]/50 font-mono">
+                <ShieldCheck size={14} className="text-emerald-400" />
+                <span>Support online 24/7/365 • Instant setup</span>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
       {/* CHANNEL CATEGORY PREVIEW MODAL */}
       {previewModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
           <div className="bg-[#1A1A1A] border border-[#2D2D2D] max-w-lg w-full rounded-[2px] p-6 sm:p-8 relative shadow-2xl">
             <button
               onClick={() => setPreviewModalOpen(false)}
@@ -938,10 +879,10 @@ export default function App() {
 
               <div className="flex gap-4 pt-2">
                 <button
-                  onClick={() => { setPreviewModalOpen(false); openCheckout(PLANS[2]); }}
-                  className="w-full bg-[#C9A96E] text-[#121212] py-3 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-[#D8B97E] transition-all"
+                  onClick={() => { setPreviewModalOpen(false); openModal('subscribe', PLANS[2]); }}
+                  className="w-full bg-[#C9A96E] text-[#121212] py-3.5 text-xs font-bold tracking-widest uppercase rounded-[2px] hover:bg-[#D8B97E] transition-all shadow-lg"
                 >
-                  Subscribe to Access All Channels
+                  Contact Us to Subscribe
                 </button>
               </div>
             </div>
