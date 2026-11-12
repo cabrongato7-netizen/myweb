@@ -163,7 +163,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <a href="#" className="flex items-center gap-2 text-2xl font-serif font-bold tracking-wider text-[#F5F2EC]">
-              AETHER<span className="text-[#C9A96E]">.</span>TV
+              IPTV<span className="text-[#C9A96E]">.</span>PRIME
             </a>
             <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] uppercase tracking-widest bg-[#222222] border border-[#2D2D2D] text-[#C9A96E] rounded-xs font-mono">
               USA • UK • CAN
@@ -671,7 +671,7 @@ export default function App() {
           
           <div className="space-y-4 md:col-span-1">
             <a href="#" className="text-2xl font-serif font-bold tracking-wider text-[#F5F2EC]">
-              AETHER<span className="text-[#C9A96E]">.</span>TV
+              IPTV<span className="text-[#C9A96E]">.</span>PRIME
             </a>
             <p className="text-xs text-[#F5F2EC]/60 leading-relaxed">
               The premier commercial IPTV streaming provider for customers across the USA, UK, and Canada. 20,000+ channels in crystal clear 4K UHD.
@@ -719,9 +719,9 @@ export default function App() {
         </div>
 
         <div className="max-w-7xl mx-auto pt-8 border-t border-[#2D2D2D]/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#F5F2EC]/40">
-          <p>© {new Date().getFullYear()} Aether TV. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} IPTV Prime. All rights reserved.</p>
           <p className="text-center sm:text-right max-w-xl">
-            Content availability varies by region. Service provided as-is. Aether TV does not host or broadcast any copyrighted content.
+            Content availability varies by region. Service provided as-is. IPTV Prime does not host or broadcast any copyrighted content.
           </p>
         </div>
       </footer>
