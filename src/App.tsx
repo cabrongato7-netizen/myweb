@@ -23,8 +23,11 @@ import {
   Headphones,
   Server
 } from 'lucide-react';
-import heroCinemaImg from './assets/images/hero_cinema_lounge_1794527675631.jpg';
+import heroAtmosphereImg from './assets/images/hero_cinema_atmosphere_1794556043626.jpg';
 import devicesSetupImg from './assets/images/devices_media_setup_1794527674906.jpg';
+import showcaseSportsImg from './assets/images/showcase_sports_4k_1794556233717.jpg';
+import showcaseCinemaImg from './assets/images/showcase_cinema_vod_1794556234803.jpg';
+import showcaseBroadcastImg from './assets/images/showcase_live_broadcast_1794556235221.jpg';
 
 type Currency = 'USD' | 'GBP' | 'CAD';
 
@@ -143,16 +146,17 @@ const CATEGORIES = [
 ];
 
 const POPULAR_LINEUP = [
-  { name: 'Premier Football & Top-Flight UK Sports', category: 'Sports', region: 'UK' },
-  { name: 'National Football, Basketball & Baseball Networks', category: 'Sports', region: 'USA' },
-  { name: 'Canadian Hockey & National Sports Desks', category: 'Sports', region: 'Canada' },
-  { name: 'Live PPV Championship Boxing & MMA Cards', category: 'Pay-Per-View', region: 'Global' },
+  { name: 'Premier League, Champions League & UK Football', category: 'Sports', region: 'UK' },
+  { name: 'NFL, NBA, MLB & College Sports Coverage', category: 'Sports', region: 'USA' },
+  { name: 'NHL Hockey & Canadian National Sports', category: 'Sports', region: 'Canada' },
+  { name: 'UFC, Live PPV Championship Boxing & MMA Cards', category: 'Pay-Per-View', region: 'Global' },
+  { name: 'Formula 1, Motorsport & Championship Golf', category: 'Sports', region: 'Global' },
   { name: 'US Coast-to-Coast Local Affiliates & News', category: 'News', region: 'USA' },
-  { name: 'British Terrestrial & Drama Broadcasts', category: 'Entertainment', region: 'UK' },
+  { name: 'British Terrestrial, Sports & Drama Broadcasts', category: 'Entertainment', region: 'UK' },
   { name: 'Canadian English & French National Networks', category: 'Entertainment', region: 'Canada' },
-  { name: '4K Cinema Vault & Weekly New Releases', category: 'Movies', region: 'Global' },
-  { name: 'Complete Multi-Season Boxsets & Drama VOD', category: 'Series', region: 'Global' },
-  { name: 'Family Animation & Educational Channels', category: 'Kids', region: 'USA · UK · CAN' }
+  { name: '4K Cinema Vault, Blockbusters & Weekly Releases', category: 'Movies', region: 'Global' },
+  { name: 'Complete Multi-Season Series & Drama Boxsets', category: 'Series', region: 'Global' },
+  { name: 'Family Animation & Kids Educational Channels', category: 'Kids', region: 'USA · UK · CAN' }
 ];
 
 const STEPS = [
@@ -297,12 +301,25 @@ export default function App() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-8">
-          {/* Zone 1: Single text element wordmark */}
+          {/* Zone 1: Brand mark + wordmark */}
           <a
             href="#"
-            className="text-xl sm:text-2xl font-serif font-bold tracking-wider text-[#F5F2EC] whitespace-nowrap shrink-0"
+            className="inline-flex items-center gap-2.5 text-xl sm:text-2xl font-serif font-bold tracking-wider text-[#F5F2EC] whitespace-nowrap shrink-0"
           >
-            IPTV<span className="text-[#C9A96E]">.</span>PRIME
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+              className="text-[#C9A96E] shrink-0"
+            >
+              <rect x="2" y="3" width="20" height="18" rx="1" stroke="currentColor" strokeWidth="1.5" />
+              <polygon points="10,8.5 16,12 10,15.5" fill="currentColor" />
+            </svg>
+            <span>
+              IPTV<span className="text-[#C9A96E]">.</span>PRIME
+            </span>
           </a>
 
           {/* Zone 2: 5 clean single-line nav links */}
@@ -412,65 +429,68 @@ export default function App() {
         )}
       </header>
 
-      {/* 2. CINEMATIC HERO */}
-      <section className="relative min-h-[90vh] flex flex-col justify-between pt-28 sm:pt-36 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Background Visual + Scrim */}
-        <div className="absolute inset-0 z-0 bg-[#141414]">
+      {/* 2. FULL-WIDTH CINEMATIC HERO — CLEAN DARK ATMOSPHERIC BACKDROP */}
+      <section className="relative min-h-[88vh] flex flex-col justify-between pt-32 sm:pt-40 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#141414]">
+        {/* Atmospheric Dark Bokeh Backdrop (Zero room/TV clutter behind text) */}
+        <div className="absolute inset-0 z-0">
           {!heroImgError ? (
             <img
-              src={heroCinemaImg}
-              alt="Luxury 4K home cinema streaming live sports"
+              src={heroAtmosphereImg}
+              alt="Dark cinematic streaming atmosphere"
               referrerPolicy="no-referrer"
               onError={() => setHeroImgError(true)}
-              className="w-full h-full object-cover object-center opacity-50"
+              className="w-full h-full object-cover object-center opacity-70"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-[#1E1C18] via-[#141414] to-[#0D0D0D]" />
+            <div className="w-full h-full bg-gradient-to-b from-[#1D1A15] via-[#141414] to-[#141414]" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/82 to-[#141414]/35" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-[#141414]/65" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#141414]/75 via-[#141414]/35 to-[#141414]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_50%_38%,rgba(201,169,110,0.14),transparent)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_#141414_95%)]" />
         </div>
 
-        {/* Main Editorial Column */}
-        <div className="relative z-10 max-w-7xl mx-auto w-full my-auto py-8">
-          <div className="max-w-3xl">
-            <p className="text-xs font-mono uppercase tracking-[0.2em] text-[#C9A96E] mb-6">
+        {/* Centered Editorial Headline & CTAs */}
+        <div className="relative z-10 max-w-4xl mx-auto text-center my-auto py-8">
+          <div className="inline-flex items-center justify-center gap-3 mb-6">
+            <span className="hidden sm:block h-px w-8 bg-[#C9A96E]/60" aria-hidden="true" />
+            <p className="text-xs font-mono uppercase tracking-[0.24em] text-[#C9A96E]">
               United States · United Kingdom · Canada
             </p>
+            <span className="hidden sm:block h-px w-8 bg-[#C9A96E]/60" aria-hidden="true" />
+          </div>
 
-            <h1 className="text-4xl sm:text-6xl lg:text-[4.25rem] font-serif font-semibold tracking-tight text-[#F5F2EC] leading-[1.06] mb-6">
-              Live TV. Sports. Movies.{' '}
-              <span className="text-[#C9A96E] italic font-normal block sm:inline">
-                One subscription.
-              </span>
-            </h1>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-semibold tracking-tight text-[#F5F2EC] leading-[1.06] mb-6">
+            Live TV. Sports. Movies.{' '}
+            <span className="block text-[#C9A96E] italic font-normal mt-2">
+              One subscription.
+            </span>
+          </h1>
 
-            <p className="max-w-xl text-base sm:text-lg text-[#F5F2EC]/80 leading-relaxed mb-10">
-              Stream 20,000+ live channels, 4K sports fixtures, and 60,000+ on-demand movies and series across North America and the UK with dedicated low-latency routing.
-            </p>
+          <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-[#F5F2EC]/80 leading-relaxed mb-10">
+            Stream 20,000+ live channels, 4K sports fixtures, and 60,000+ on-demand movies and series across North America and the UK without buffering.
+          </p>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              <a
-                href="#pricing"
-                className="inline-flex items-center justify-center gap-3 bg-[#C9A96E] text-[#141414] border border-[#C9A96E] px-8 py-4 text-xs font-bold tracking-[0.16em] uppercase rounded-[2px] hover:bg-transparent hover:text-[#C9A96E] transition-colors whitespace-nowrap"
-              >
-                View Plans
-                <ArrowRight size={15} />
-              </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="#pricing"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#C9A96E] text-[#141414] border border-[#C9A96E] px-9 py-4 text-xs font-bold tracking-[0.18em] uppercase rounded-[2px] hover:bg-transparent hover:text-[#C9A96E] transition-colors whitespace-nowrap"
+            >
+              View Plans
+              <ArrowRight size={15} />
+            </a>
 
-              <button
-                onClick={() => openModal('trial')}
-                className="inline-flex items-center justify-center gap-3 bg-transparent text-[#F5F2EC] border border-[#F5F2EC]/30 px-8 py-4 text-xs font-bold tracking-[0.16em] uppercase rounded-[2px] hover:border-[#C9A96E] hover:text-[#C9A96E] transition-colors whitespace-nowrap cursor-pointer"
-              >
-                <Play size={14} className="text-[#C9A96E]" />
-                Free Trial
-              </button>
-            </div>
+            <button
+              onClick={() => openModal('trial')}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#1A1A1A]/70 text-[#F5F2EC] border border-[#F5F2EC]/30 px-9 py-4 text-xs font-bold tracking-[0.18em] uppercase rounded-[2px] hover:border-[#C9A96E] hover:text-[#C9A96E] transition-colors whitespace-nowrap cursor-pointer"
+            >
+              <Play size={14} className="text-[#C9A96E]" />
+              Free Trial
+            </button>
           </div>
         </div>
 
-        {/* Full-Width Unboxed KPI Bar anchored below hero */}
-        <div className="relative z-10 max-w-7xl mx-auto w-full pt-8 border-t border-[#2C2C2C]/80 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+        {/* Full-Width Unboxed Metric Bar anchored at bottom of Hero */}
+        <div className="relative z-10 max-w-6xl mx-auto w-full pt-8 border-t border-[#2C2C2C]/80 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
           <div>
             <p className="text-2xl sm:text-3xl font-serif font-semibold text-[#F5F2EC] tabular-nums">
               20,000+
@@ -531,6 +551,89 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* EDITORIAL VISUAL SHOWCASE — 3 BESPOKE ENTERTAINMENT FRAMES */}
+      <motion.section
+        {...fadeUp}
+        className="pt-20 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <p className="text-xs font-mono uppercase tracking-[0.18em] text-[#C9A96E] mb-2">
+              Curated Experience
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-[#F5F2EC]">
+              Cinema, Live Sports &amp; Broadcast Television
+            </h2>
+          </div>
+          <p className="text-xs font-mono uppercase tracking-[0.14em] text-[#F5F2EC]/55">
+            Select a card to preview lineup details
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              index: '01',
+              title: 'Live 4K Sports & PPV',
+              subtitle: 'Premier League, NFL, NBA, UFC & Championship Boxing in 60fps',
+              tag: '1,200+ Sports Feeds',
+              img: showcaseSportsImg,
+              alt: 'Floodlit evening stadium pitch for 4K live sports streaming',
+              categoryIndex: 0
+            },
+            {
+              index: '02',
+              title: 'On-Demand Cinema Vault',
+              subtitle: 'New studio releases, classic film collections, and complete boxsets',
+              tag: '60,000+ VOD Titles',
+              img: showcaseCinemaImg,
+              alt: 'Warm cinema projector beam inside a private luxury screening room',
+              categoryIndex: 2
+            },
+            {
+              index: '03',
+              title: 'USA, UK & Canada Networks',
+              subtitle: 'Coast-to-coast live broadcasts, news desks, and 7-day catch-up EPG',
+              tag: '20,000+ Live Channels',
+              img: showcaseBroadcastImg,
+              alt: 'Modern dark television broadcast control suite with warm key lighting',
+              categoryIndex: 1
+            }
+          ].map((frame) => (
+            <button
+              key={frame.title}
+              onClick={() => {
+                setActiveCategoryPreview(CATEGORIES[frame.categoryIndex]);
+                setPreviewModalOpen(true);
+              }}
+              className="group relative aspect-[4/3] bg-[#1A1A1A] border border-[#2C2C2C] hover:border-[#C9A96E] rounded-[2px] overflow-hidden text-left transition-colors cursor-pointer"
+            >
+              <img
+                src={frame.img}
+                alt={frame.alt}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/55 to-transparent" />
+              <div className="absolute top-4 right-4 text-[11px] font-mono text-[#F5F2EC]/60 group-hover:text-[#C9A96E] transition-colors">
+                {frame.index}
+              </div>
+              <div className="absolute inset-x-0 bottom-0 p-6">
+                <p className="text-[11px] font-mono uppercase tracking-[0.16em] text-[#C9A96E] mb-1.5">
+                  {frame.tag}
+                </p>
+                <h3 className="text-xl font-serif font-semibold text-[#F5F2EC] group-hover:text-[#C9A96E] transition-colors">
+                  {frame.title}
+                </h3>
+                <p className="text-xs text-[#F5F2EC]/75 mt-1.5 leading-relaxed">
+                  {frame.subtitle}
+                </p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </motion.section>
 
       {/* 3. CHANNEL & CATEGORY STRIP (NO CARD CONTAINERS) */}
       <motion.section
@@ -692,85 +795,89 @@ export default function App() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex flex-col justify-between rounded-[2px] p-8 transition-colors ${
+                className={`relative flex flex-col justify-between rounded-[2px] overflow-hidden transition-colors ${
                   plan.popular
-                    ? 'bg-gradient-to-b from-[#231F18] to-[#1A1A1A] border border-[#C9A96E] border-t-2 border-t-[#C9A96E]'
+                    ? 'bg-gradient-to-b from-[#252017] to-[#1A1A1A] border border-[#C9A96E] shadow-[0_0_55px_-18px_rgba(201,169,110,0.28)]'
                     : 'bg-[#1A1A1A] border border-[#2C2C2C] hover:border-[#C9A96E]/50'
                 }`}
               >
-                <div>
-                  <div className="flex items-center justify-between gap-3 mb-5">
-                    <span className="text-xs font-mono uppercase tracking-[0.16em] text-[#C9A96E]">
-                      {plan.duration}
-                    </span>
-                    {plan.badge ? (
-                      <span className="text-xs font-mono uppercase tracking-[0.14em] text-[#C9A96E] font-semibold">
-                        {plan.badge} · {plan.savings}
-                      </span>
-                    ) : plan.savings ? (
-                      <span className="text-xs font-mono text-[#F5F2EC]/60">
-                        {plan.savings}
-                      </span>
-                    ) : null}
+                {plan.popular && (
+                  <div className="bg-[#C9A96E] text-[#141414] px-8 py-2 text-[11px] font-mono font-bold uppercase tracking-[0.18em] flex items-center justify-between">
+                    <span>{plan.badge}</span>
+                    <span>{plan.savings}</span>
                   </div>
-
-                  <h3 className="text-2xl font-serif font-semibold text-[#F5F2EC]">
-                    {plan.name}
-                  </h3>
-
-                  <div className="my-7 pb-7 border-b border-[#2C2C2C]">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-4xl sm:text-5xl font-serif font-semibold text-[#F5F2EC] tabular-nums">
-                        {symbol}
-                        {price.toFixed(2)}
+                )}
+                <div className="p-8 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between gap-3 mb-5">
+                      <span className="text-xs font-mono uppercase tracking-[0.16em] text-[#C9A96E]">
+                        {plan.duration}
                       </span>
-                      <span className="text-xs font-mono text-[#F5F2EC]/60">
-                        {currency}
-                      </span>
+                      {!plan.popular && plan.savings ? (
+                        <span className="text-xs font-mono text-[#F5F2EC]/60">
+                          {plan.savings}
+                        </span>
+                      ) : null}
                     </div>
-                    <p className="text-xs font-mono text-[#C9A96E]/90 mt-2.5 tabular-nums">
-                      Equivalent to {plan.perMonthNote[currency]} · Billed once
-                    </p>
-                    <p className="text-[11px] font-mono text-[#F5F2EC]/45 mt-1 tabular-nums">
-                      Also available in {otherCurrencies}
-                    </p>
+
+                    <h3 className="text-2xl font-serif font-semibold text-[#F5F2EC]">
+                      {plan.name}
+                    </h3>
+
+                    <div className="my-7 pb-7 border-b border-[#2C2C2C]">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-4xl sm:text-5xl font-serif font-semibold text-[#F5F2EC] tabular-nums">
+                          {symbol}
+                          {price.toFixed(2)}
+                        </span>
+                        <span className="text-xs font-mono text-[#F5F2EC]/60">
+                          {currency}
+                        </span>
+                      </div>
+                      <p className="text-xs font-mono text-[#C9A96E]/90 mt-2.5 tabular-nums">
+                        Equivalent to {plan.perMonthNote[currency]} · Billed once
+                      </p>
+                      <p className="text-[11px] font-mono text-[#F5F2EC]/45 mt-1 tabular-nums">
+                        Also available in {otherCurrencies}
+                      </p>
+                    </div>
+
+                    <ul className="space-y-3.5 text-sm text-[#F5F2EC]/85 mb-8">
+                      <li className="flex items-center gap-3">
+                        <Check size={15} className="text-[#C9A96E] shrink-0" />
+                        <span>20,000+ Live USA, UK &amp; Canada Channels</span>
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <Check size={15} className="text-[#C9A96E] shrink-0" />
+                        <span>60,000+ Movies &amp; Series On Demand</span>
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <Check size={15} className="text-[#C9A96E] shrink-0" />
+                        <span>4K UHD &amp; 60fps Live Sports Coverage</span>
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <Check size={15} className="text-[#C9A96E] shrink-0" />
+                        <span>3 Concurrent Device Connections</span>
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <Check size={15} className="text-[#C9A96E] shrink-0" />
+                        <span>7-Day Catch-Up, EPG &amp; 24/7 Support</span>
+                      </li>
+                    </ul>
                   </div>
 
-                  <ul className="space-y-3.5 text-sm text-[#F5F2EC]/85 mb-8">
-                    <li className="flex items-center gap-3">
-                      <Check size={15} className="text-[#C9A96E] shrink-0" />
-                      <span>20,000+ Live USA, UK & Canada Channels</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <Check size={15} className="text-[#C9A96E] shrink-0" />
-                      <span>60,000+ Movies & Series On Demand</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <Check size={15} className="text-[#C9A96E] shrink-0" />
-                      <span>4K UHD & 60fps Live Sports Coverage</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <Check size={15} className="text-[#C9A96E] shrink-0" />
-                      <span>3 Concurrent Device Connections</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <Check size={15} className="text-[#C9A96E] shrink-0" />
-                      <span>7-Day Catch-Up, EPG & 24/7 Support</span>
-                    </li>
-                  </ul>
+                  <button
+                    onClick={() => openModal('subscribe', plan)}
+                    className={`w-full py-3.5 px-6 text-xs font-bold tracking-[0.16em] uppercase rounded-[2px] transition-colors flex items-center justify-center gap-2 cursor-pointer ${
+                      plan.popular
+                        ? 'bg-[#C9A96E] text-[#141414] border border-[#C9A96E] hover:bg-transparent hover:text-[#C9A96E]'
+                        : 'bg-transparent text-[#F5F2EC] border border-[#F5F2EC]/30 hover:bg-[#C9A96E] hover:text-[#141414] hover:border-[#C9A96E]'
+                    }`}
+                  >
+                    Subscribe
+                    <ArrowRight size={14} />
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => openModal('subscribe', plan)}
-                  className={`w-full py-3.5 px-6 text-xs font-bold tracking-[0.16em] uppercase rounded-[2px] transition-colors flex items-center justify-center gap-2 cursor-pointer ${
-                    plan.popular
-                      ? 'bg-[#C9A96E] text-[#141414] border border-[#C9A96E] hover:bg-transparent hover:text-[#C9A96E]'
-                      : 'bg-transparent text-[#F5F2EC] border border-[#F5F2EC]/30 hover:bg-[#C9A96E] hover:text-[#141414] hover:border-[#C9A96E]'
-                  }`}
-                >
-                  Subscribe
-                  <ArrowRight size={14} />
-                </button>
               </div>
             );
           })}
@@ -1090,9 +1197,22 @@ export default function App() {
           <div>
             <a
               href="#"
-              className="text-2xl font-serif font-bold tracking-wider text-[#F5F2EC]"
+              className="inline-flex items-center gap-2.5 text-2xl font-serif font-bold tracking-wider text-[#F5F2EC]"
             >
-              IPTV<span className="text-[#C9A96E]">.</span>PRIME
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+                className="text-[#C9A96E] shrink-0"
+              >
+                <rect x="2" y="3" width="20" height="18" rx="1" stroke="currentColor" strokeWidth="1.5" />
+                <polygon points="10,8.5 16,12 10,15.5" fill="currentColor" />
+              </svg>
+              <span>
+                IPTV<span className="text-[#C9A96E]">.</span>PRIME
+              </span>
             </a>
             <p className="text-xs text-[#F5F2EC]/60 leading-relaxed mt-4">
               Live TV, 4K sports, and on-demand cinema streaming for households across the United States, United Kingdom, and Canada.
