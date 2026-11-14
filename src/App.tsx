@@ -467,7 +467,7 @@ export default function App() {
           </h1>
 
           <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-[#F5F2EC]/80 leading-relaxed mb-10">
-            Stream 20,000+ live channels, 4K sports fixtures, and 60,000+ on-demand movies and series across North America and the UK without buffering.
+            A 4K IPTV subscription built for the USA, UK, and Canada. Stream 20,000+ live channels, 4K sports fixtures, and 60,000+ VOD movies on Firestick, Smart TV, and TiviMate without buffering.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -647,11 +647,11 @@ export default function App() {
               Channel Categories
             </p>
             <h2 className="text-3xl sm:text-5xl font-serif font-semibold text-[#F5F2EC]">
-              Built for North American & UK Viewing
+              IPTV Channels for USA, UK &amp; Canada
             </h2>
           </div>
           <p className="text-sm text-[#F5F2EC]/70 max-w-md leading-relaxed">
-            Browse every broadcast category included in your pass. Select any category to inspect included regional coverage.
+            Built for USA IPTV, UK IPTV, and Canadian IPTV households. Select any broadcast category to inspect included regional coverage.
           </p>
         </div>
 
@@ -752,10 +752,10 @@ export default function App() {
               Subscription Plans
             </p>
             <h2 className="text-3xl sm:text-5xl font-serif font-semibold text-[#F5F2EC]">
-              Simple, One-Time Passes
+              4K IPTV Subscription Plans
             </h2>
             <p className="text-sm sm:text-base text-[#F5F2EC]/70 mt-3 max-w-xl">
-              Every plan unlocks all 20,000+ live channels, 60,000+ VOD titles, 3 simultaneous connections, and full 4K coverage.
+              Simple one-time passes in USD, GBP, and CAD. Every IPTV plan unlocks 20,000+ live channels, 60,000+ VOD titles, 3 simultaneous connections, and 4K sports coverage.
             </p>
           </div>
 
@@ -945,7 +945,7 @@ export default function App() {
             Three-Step Setup
           </p>
           <h2 className="text-3xl sm:text-5xl font-serif font-semibold text-[#F5F2EC]">
-            From Checkout to Live 4K in Minutes
+            Instant IPTV Activation in Minutes
           </h2>
         </div>
 
@@ -1004,10 +1004,10 @@ export default function App() {
                 Device Compatibility
               </p>
               <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-[#F5F2EC] mb-4">
-                Built for Every Screen in Your Home
+                IPTV for Firestick, Smart TV &amp; TiviMate
               </h2>
               <p className="text-sm sm:text-base text-[#F5F2EC]/70 leading-relaxed mb-8">
-                Full support for M3U playlists, Xtream Codes API, and MAG portals. Configure once on your living room television and take your lineup on mobile or tablet when traveling.
+                Seamless setup with TiviMate, IPTV Smarters Pro, and IBO Player via M3U playlists, Xtream Codes API, and MAG portals across Firestick, Samsung and LG Smart TVs, Apple TV, Android, and iOS.
               </p>
 
               {/* Devices label grid */}
