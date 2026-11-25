@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2026-11-25",
+  "brand": {
+    "name": "IPTV Prime",
+    "alternate_name": "IPTV.PRIME",
+    "url": "https://iptvprime.cloud/",
+    "logo": "https://iptvprime.cloud/favicon.svg",
+    "image": "https://iptvprime.cloud/og-image.jpg",
+    "summary": "4K IPTV subscription provider serving households in the United States, United Kingdom, and Canada with 20,000+ live channels, live 4K sports & PPV, and 60,000+ VOD movies and series."
+  },
+  "target_regions": [
+    { "code": "US", "name": "United States", "edge_node": "New York" },
+    { "code": "GB", "name": "United Kingdom", "edge_node": "London" },
+    { "code": "CA", "name": "Canada", "edge_node": "Toronto" }
+  ],
+  "service_highlights": {
+    "live_channels": "20,000+",
+    "vod_titles": "60,000+",
+    "video_quality": ["4K UHD", "Full HD 1080p", "60fps Sports"],
+    "concurrent_connections": 3,
+    "uptime_sla": "99.9%",
+    "epg_included": true,
+    "catch_up_days": 7,
+    "free_trial": "24-hour evaluation pass (no credit card required)",
+    "refund_policy": "7-day satisfaction money-back guarantee",
+    "activation_time": "Under 60 seconds via WhatsApp or Telegram"
+  },
+  "pricing_plans": [
+    {
+      "id": "1-month",
+      "name": "Monthly Pass",
+      "duration": "1 Month",
+      "billing_cycle": "One-time pass",
+      "prices": {
+        "USD": 19.99,
+        "GBP": 15.99,
+        "CAD": 26.99
+      }
+    },
+    {
+      "id": "3-month",
+      "name": "Quarterly Pass",
+      "duration": "3 Months",
+      "billing_cycle": "One-time pass",
+      "savings": "Save 15%",
+      "prices": {
+        "USD": 49.99,
+        "GBP": 39.99,
+        "CAD": 67.99
+      }
+    },
+    {
+      "id": "12-month",
+      "name": "Annual VIP Pass",
+      "duration": "12 Months",
+      "badge": "Best Value",
+      "billing_cycle": "One-time pass",
+      "savings": "Save 69%",
+      "prices": {
+        "USD": 74.99,
+        "GBP": 59.99,
+        "CAD": 104.99
+      }
+    }
+  ],
+  "categories": [
+    "Sports (1,200+ Live Channels: Premier League, Champions League, NFL, NBA, MLB, NHL, UFC, PPV Boxing, Formula 1)",
+    "Entertainment (4,500+ USA, UK & Canada Networks)",
+    "Movies & Series VOD (60,000+ 4K UHD Titles & Boxsets)",
+    "Kids & Family (450+ Channels)",
+    "News (900+ Global & Local Affiliate Feeds)",
+    "International (8,000+ Regional Feeds)"
+  ],
+  "compatibility": {
+    "devices": [
+      "Amazon Firestick & Fire TV",
+      "Samsung & LG Smart TV",
+      "Apple TV & iOS",
+      "Android TV & Nvidia Shield",
+      "MAG & Enigma2",
+      "Windows & macOS"
+    ],
+    "apps_and_protocols": [
+      "TiviMate",
+      "IPTV Smarters Pro",
+      "IBO Player",
+      "VLC",
+      "M3U Playlist URL",
+      "Xtream Codes API",
+      "MAG Portal"
+    ]
+  },
+  "payments_and_support": {
+    "payment_methods": ["Visa", "Mastercard", "Stripe", "PayPal", "BTC", "USDT"],
+    "support_hours": "24/7",
+    "channels": {
+      "whatsapp": "https://wa.me/447731454811",
+      "telegram": "https://t.me/+447731454811",
+      "discord": "https://discord.com/invite/QyNQRYwJj3"
+    }
+  },
+  "faqs": [
+    {
+      "question": "Can I test IPTV Prime with a free trial before subscribing?",
+      "answer": "Yes. IPTV Prime provides a 24-hour evaluation pass so you can test our USA, UK, and Canadian channel lineup, live sports streams, and 4K VOD library before subscribing."
+    },
+    {
+      "question": "Which devices and apps are supported?",
+      "answer": "IPTV Prime works on Amazon Firestick, Samsung and LG Smart TVs, Apple TV, iOS, Android TV, MAG boxes, Windows, and macOS using TiviMate, IPTV Smarters Pro, and IBO Player."
+    },
+    {
+      "question": "What payment methods do you accept?",
+      "answer": "Major credit and debit cards via Stripe, PayPal, and select cryptocurrencies (BTC, USDT) in USD, GBP, or CAD."
+    },
+    {
+      "question": "What is your refund policy?",
+      "answer": "All plans include a 7-day satisfaction guarantee if our technical desk cannot resolve persistent playback issues on your connection."
+    }
+  ],
+  "compliance_notice": "Content availability varies by region. Service provided as-is. Subscribers are responsible for compliance with local regulations in their jurisdiction."
+}

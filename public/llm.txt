@@ -1,0 +1,33 @@
+# IPTV Prime
+
+> IPTV Prime (https://iptvprime.cloud/) provides commercial 4K IPTV subscriptions with 20,000+ live TV channels, live PPV sports, and 60,000+ on-demand movies and series across the United States, United Kingdom, and Canada.
+
+## Core Service Overview
+- **Website**: https://iptvprime.cloud/
+- **Target Regions**: United States (USA), United Kingdom (UK), Canada
+- **Channel Lineup**: 20,000+ live television channels (Sports, PPV, Entertainment, Movies, Kids, News, International)
+- **On-Demand Library (VOD)**: 60,000+ movies and multi-season series in 4K UHD and Full HD
+- **Simultaneous Streams**: 3 concurrent device connections per subscription
+- **Server Infrastructure**: Regional edge nodes in New York, London, and Toronto with 99.9% uptime and EPG program guide
+- **Free Trial**: 24-hour evaluation trial available before subscribing
+- **Refund Policy**: 7-day satisfaction money-back guarantee
+
+## Subscription Plans & Pricing
+- **Monthly Pass (1 Month)**: $19.99 USD / £15.99 GBP / C$26.99 CAD
+- **Quarterly Pass (3 Months)**: $49.99 USD / £39.99 GBP / C$67.99 CAD
+- **Annual VIP Pass (12 Months — Best Value)**: $74.99 USD / £59.99 GBP / C$104.99 CAD
+
+## Supported Devices & IPTV Players
+- **Devices**: Amazon Firestick, Fire TV, Samsung Smart TV, LG Smart TV, Apple TV, iOS (iPhone/iPad), Android TV, Nvidia Shield, Android mobile, MAG boxes, Enigma2, Windows, macOS
+- **Formats & Apps**: M3U playlist URL, Xtream Codes API, MAG Portal; compatible with TiviMate, IPTV Smarters Pro, IBO Player, VLC
+
+## Payment & Activation
+- **Accepted Payments**: Visa, Mastercard, Stripe, PayPal, and major cryptocurrencies (BTC, USDT)
+- **Delivery Time**: Instant credential delivery within 60 seconds via WhatsApp or Telegram
+- **Support Channels**:
+  - WhatsApp: https://wa.me/447731454811
+  - Telegram: https://t.me/+447731454811
+  - Discord Community: https://discord.com/invite/QyNQRYwJj3
+
+## Legal & Regional Notice
+Content availability varies by region. Service provided as-is. Subscribers are responsible for compliance with local regulations in their jurisdiction.
